@@ -12,7 +12,23 @@ exports.createMCQ=async(req,res)=>{
         res.status(400).send(err.message);
     }
 }
+exports.checkAnswer = async (req, res) => {
+    const { id } = req.params;
+    const { selectedAnswer } = req.body;
+    
+    try {
+        const mcq = await MCQ.findById(id);
+        if (!mcq) return res.status(404).send('MCQ not found');
 
+        if (selectedAnswer === mcq.correctAnswer) {
+            res.status(200).json({ message: 'Correct!' });
+        } else {
+            res.status(200).json({ message: 'Incorrect!' });
+        }
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+};
 exports.getMCQs=async(req,res)=>{
     try{
         const mcqs=await MCQ.find();
