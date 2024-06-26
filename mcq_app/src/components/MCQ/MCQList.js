@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import MCQItem from './MCQItem';
 
@@ -27,6 +28,7 @@ const MCQList = () => {
   return (
     <div>
       <h2>MCQ List</h2>
+      <Link to="/mcqs/new">Create New MCQ</Link>
       {mcqs.map(mcq => (
         <MCQItem key={mcq._id} mcq={mcq} />
       ))}
