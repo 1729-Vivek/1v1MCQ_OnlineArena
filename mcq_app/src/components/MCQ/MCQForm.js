@@ -26,13 +26,13 @@ const MCQForm = ({ mcq = null, onSave }) => {
     e.preventDefault();
     try {
       if (mcq) {
-        await axios.put(`/api/mcqs/${mcq._id}`, formData, {
+        await axios.put(`http://localhost:5000/api/mcqs/${mcq._id}`, formData, {
           headers: {
             'x-auth-token': authToken
           }
         });
       } else {
-        await axios.post('/api/mcqs', formData, {
+        await axios.post('http://localhost:5000/api/mcqs', formData, {
           headers: {
             'x-auth-token': authToken
           }
