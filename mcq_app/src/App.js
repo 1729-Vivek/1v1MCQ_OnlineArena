@@ -1,22 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Signup from './components/Auth/Signup';
-import Login from './components/Auth/Login';
-import MCQList from './components/MCQ/MCQList';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navigation/Navbar';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
+import MCQList from './components/MCQ/MCQList';
+import MCQForm from './components/MCQ/MCQForm';
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/mcqs" element={<MCQList />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/mcqs" element={<MCQList />} />
+          <Route path="/mcqs/new" element={<MCQForm />} />
+          <Route path="/mcqs/edit/:id" element={<MCQForm />} />
+          {/* Add more routes as needed */}
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
