@@ -10,7 +10,7 @@ const MCQList = () => {
   useEffect(() => {
     const fetchMcqs = async () => {
       try {
-        const response = await axios.get('/api/mcqs', {
+        const response = await axios.get('http://localhost:5000/api/mcqs', {
           headers: {
             'x-auth-token': authToken
           }
