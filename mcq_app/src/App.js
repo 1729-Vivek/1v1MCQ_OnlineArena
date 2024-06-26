@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './components/Auth/Signup';
 import Login from './components/Auth/Login';
 import MCQList from './components/MCQ/MCQList';
@@ -9,12 +9,12 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Switch>
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/mcqs" component={MCQList} />
-        <Route path="/" component={Login} />
-      </Switch>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/mcqs" element={<MCQList />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
     </Router>
   );
 };
