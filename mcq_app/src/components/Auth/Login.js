@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
   });
 
   const { setAuthToken } = useContext(AuthContext);
+  const history = useHistory();
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,17 +18,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data:', formData); // Check if formData is correctly populated
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', formData);
-      console.log('Login response:', response.data); // Check response data
-      // Handle response (e.g., setAuthToken(response.data.token))
+      setAuthToken(response.data.token);
+      history.push('/mcqs'); // Redirect to MCQ list after successful login
     } catch (error) {
       console.error('Login failed!', error);
       // Handle error
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit}>
