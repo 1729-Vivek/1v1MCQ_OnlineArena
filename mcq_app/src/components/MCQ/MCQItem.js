@@ -8,7 +8,7 @@ const MCQItem = ({ mcq }) => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this MCQ?')) {
       try {
-        await axios.delete(/api/mcqs/${mcq._id}, {
+        await axios.delete(`/api/mcqs/${mcq._id}`, {
           headers: {
             'x-auth-token': authToken
           }

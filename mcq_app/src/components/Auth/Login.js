@@ -14,17 +14,19 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form data:', formData); // Check if formData is correctly populated
     try {
-      const response = await axios.post('/api/users/login', formData);
-      setAuthToken(response.data.token);
-      // Redirect or show success message
+      const response = await axios.post('http://localhost:5000/api/users/login', formData);
+      console.log('Login response:', response.data); // Check response data
+      // Handle response (e.g., setAuthToken(response.data.token))
     } catch (error) {
-      console.error(error);
-      // Handle error (show error message)
+      console.error('Login failed!', error);
+      // Handle error
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
