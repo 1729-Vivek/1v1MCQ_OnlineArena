@@ -1,16 +1,38 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
-const MCQForm = ({ mcq = null, onSave }) => {
+const MCQForm = () => {
   const [formData, setFormData] = useState({
-    question: mcq ? mcq.question : '',
-    options: mcq ? mcq.options : ['', '', '', ''],
-    correctAnswer: mcq ? mcq.correctAnswer : '',
-    difficulty: mcq ? mcq.difficulty : 'easy'
+    question: '',
+    options: ['', '', '', ''],
+    correctAnswer: '',
+    difficulty: 'easy'
   });
 
   const { authToken } = useContext(AuthContext);
+  const { id } = useParams();  // Get the ID from the URL params
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      // Fetch the MCQ details for editing
+      const fetchMcq = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/mcqs/${id}`, {
+            headers: {
+              'x-auth-token': authToken
+            }
+          });
+          setFormData(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchMcq();
+    }
+  }, [id, authToken]);
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,8 +47,8 @@ const MCQForm = ({ mcq = null, onSave }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      if (mcq) {
-        await axios.put(`http://localhost:5000/api/mcqs/${mcq._id}`, formData, {
+      if (id) {
+        await axios.put(`http://localhost:5000/api/mcqs/${id}`, formData, {
           headers: {
             'x-auth-token': authToken
           }
@@ -38,7 +60,7 @@ const MCQForm = ({ mcq = null, onSave }) => {
           }
         });
       }
-      onSave();
+      navigate('/mcqs');  // Redirect to the MCQ list
     } catch (error) {
       console.error(error);
       // Handle error (show error message)
